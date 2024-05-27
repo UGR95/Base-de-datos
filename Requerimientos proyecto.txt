@@ -1,0 +1,79 @@
+1.- La clase DatosPubs de la solucion Pubs deberá desaparecer o en su caso disminuir en la medida de lo posible los métodos utilizados
+	si se realizan equipos de 2 o 3 personas este punto es obligatorio que desaparezca la clase DatosPubs y se generen los métodos en el WCF o en el proyecto 4 capas
+
+2.- Deberán implementar store procedures para actualizar información, actualmente en el proyecto se utiliza la sentencia update como Código duro, deberán sustituirla por un spu_ ...
+
+3.- Al momento de ingresar usuario en el logging se debe validar si el usuario es administrador, de ser así pasa al formulario frmMenu, de lo contrario si no es un administrador, deberá redirigir al formulario frmVentas deshabilitando el botón regresar y agregar un botón "Salir"
+
+4.- Para el alta de información de cualquier formulario frmAlta... deberán validar que todos los campos del formulario contengan información, de lo contrario deberán mostrar un MessageBox con el mensaje "El campo "x" es obligatorio."
+
+5.- Para el alta en cualquier formulario frmAlta... en el componente de cualquier Id, se deberá generar de manera automática un valor aleatorio con el formato establecido en el maskedBox, el componente debe habilitarse para modificarse, así mismo al realizar alta deberá validar que el Id no se encuentre registrado en las tablas, de encontrarse dado de alta deberá mostrar un mensaje de error que ah sido actualizado por otro id mismo que igualmente deberá validar si existe en la tabla 
+
+6.- En el formulario FrmAltatitulo, se deberá incluir el campo IdAutor o nombre del autor con el fin de que cuando se agregue el libro se le pueda asignar en primera instancia el autor
+
+7.- En el formulario FrmAltatitulo en el componente NumericUpDoun "Anticipo" se deberá sustituir por un texbox así mismo se debe calcular en automático con el 10% sobre el precio establecido este componente no podrá ser modificado
+
+8.- En el componente NumericUpDoun "Regalías", se deberá sustituir por un texbox así mismo se debe calcularse el 20% sobre el precio del libro
+
+9.- En el componente NumericUpDoun "Ventas del año hasta hoy", no podrá ser modificado si la fecha de publicación es del día actual o una fecha posterior, de lo contrario si la fecha es anterior a la fecha actual podra ingresarse valores
+
+10.- En el formulario frmAltaStock en los combobox solo deberán mostrar información que no se encuentre registrada en la tabla stock, así mismo se deberá realizar un reajuste, mostrando primero los títulos de libros nuevos, posterior mostrar las tiendas para agregar el libro
+
+11.- En el formulario frmStock, en el botón eliminar, únicamente podrá realizar la acción si el libro se encuentra sin stock, de lo contrario deberá mostrar un mensaje de error indicando que aún existe stock en almacén
+
+12.- En el formulario frmTitulosAutor se deberá mostrar el nombre del autor y el nombre del libro ya que actualmente solo muestra los Id´s, igualmente se deberá quitar el botón Alta título autor
+
+13.- Al realizar venta se ejecutan 3 eventos/métodos diferentes 1.- ObtenerStock para obtener la disponibilidad de un producto, 2.- se ejecuta el spi_AltaVentas y por ultimo ActualizarBookStock, para este punto se deberá realizar las mismas acciones en el mismo store prodedure, validar si existe stock para el libro, de ser así continuar con la venta, de lo contrario el sp debera retornar un mensaje o valor para identificar stock insuficiente, así mismo si todo va bien disminuir la cantidad vendida en la tabla de boockstok
+
+14.- Se deberá agregar una columna nueva para el precio total en la tabla de Sales, en el formaulario frmAltaVenta deberán agregar un texbox o un label indicando el precio total el cual se va a calcular con el texbox "Precio" multiplicado por el componente NumericUpDoun "Cantidad" y aplicar el descuento en caso de aplicar
+
+15.- Para el componente DateTimePicker "Fecha Orden" no podrá seleccionar una fecha anterior a la actual, si el libro seleccionado tiene fecha de publicación mayor a la fecha actual deberá mostrar la fecha de publicación y no podrá seleccionar una fecha anterior a la de publicación
+
+16.- Se deberá agregar una columna nueva para el "Anticipo" en la tabla Sales, en el formulario frmAltaVenta deberán agregar un texbox o label para indicar el anticipo que se debe dejar, este mismo no deberá ser modificable y se calculara de acuerdo con el anticipo establecido en el punto 6 multiplicado por la cantidad de libros comprados, siempre y cuando la fecha de venta sea mayor a la fecha actual, de lo contrario este campo no deberá ser visible
+
+17.- En el componente combobox "Descuento" actualmente consulta el descuento al modificar el componente de "Cantidad", sin embargo, en base de datos existen 3 tipos de descuento (Initial Customer, Volume Discount, Customer Discount), el Initial Customer no se tomara en cuenta ya que no se tiene la funcionalidad para clientes nuevos o por membrecia, para este caso se se debe actualizar de acuerdo a tipos de descuento que existen en la base de datos, se agregó uno adicional "Date Discount" para descuentos por fecha(https://github.com/UGR95/Base-de-datos: Modificar tabla discounts.sql). como tal no existe un formulario para esta parte por lo que se tendra que tener los scripts para insertar o actualizar la tabla
+	17.1.- Volume Discount: Se genera descuento por cantidad de libros vendidos
+	17.2.- Customer Discount: Se tomará el descuento para las tiendas registradas
+	17.3.- Date Discount: Se tomará el descuento al cambiar el valor del componente Fecha Publicacion
+
+18.- En el formulario frmVentas el botón Modificar venta solo debe funcionar cuando la fecha actual sea menor a la fecha de venta, lo que quiere decir que solo se puede modificar cuando sea una venta "programada", en el gridview dgvVentas se deben mostrar los campos agregados en los pasos 14: Precio total, 16: anticipo, 17: Descuento, Precio unitario y mostrar el siguiente orden
+	1: Número de Orden
+	2: Nombre de la tienda
+	3: Nombre del Libro
+	4: Precio unitario
+	5: Cantidad Vendida
+	6: Descuento
+	7: Precio Total
+	8: fecha Orden (Venta) 
+
+19.- En el frmModificarVenta se deberá agregar los campos de los puntos 14: Precio total, 16: anticipo, 17: Descuento y Precio unitario
+
+20.- En el frmModificarVenta solo se podrá modificar la Fecha de orden (siempre y cuando no sea menor a la fecha actual), Cantidad, anticipo (siempre y cuando no sea menos al que ya se encuentra establecido) y descuento, para el descuento debe se obtener nuevamente de acuerdo con la cantidad vendida o la fecha de compra, y generar un recalculo de precio total, así mismo si se modifica la cantidad, deberá aumentar el stock con la diferencia si se ingresa una cantidad menor a la establecida al inicio, o en su caso disminuir si se ingresa una cantidad mayor
+
+21.- En los formularios Altas y modificar deben de asignar un index a cada componente, con el fin de que si le doy clic a la tecla tab me posisicione en el siguiente componente para escribir
+
+Fecha de entrega: Se debe entregar antes del 07/06/2024 a las 7:00 pm
+
+Puntos requerimiento	Valor individual	valor max 3 alumn
+	1			6.25			12
+	2			4.25			4
+	3			4.25			4
+	4			4.25			4
+	5			4.25			4
+	6			4.25			4
+	7			4.25			4
+	8			4.25			4
+	9			4.25			4
+	10			4.25			4
+	11			4.25			4
+	12			4.25			4
+	13			4.25			4
+	14			4.25			4
+	15			4.25			4
+	16			4.25			4
+	17			4.25			4
+	18			4.25			4
+	19			4.25			4
+	20			4.25			4
+	21			3			2
+
